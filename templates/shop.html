@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{name}}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: white;
+        }
+        .box { display: inline-block;
+          padding: 1px;
+          border: 2px solid #333;
+          text-align: center;
+          font-size: 12px;
+          font-weight: bold;
+          color: #333; 
+        }
+    </style>
+  <body>
+    <div class="container-fluid bg-dark">
+      <ul class="nav flex-row d-flex">
+        <li class="nav-item my-auto">
+          <h5 class="text-white">
+            {{name}}
+          </h5>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="/">Home</a>
+        </li>
+        <li class="flex-grow-1">
+        </li>
+        <li>
+          <button type="button" class="btn btn-success">
+            View Cart
+            <div class="box">
+              0
+            </div>
+          </button>
+        </li>
+      </ul>
+    </div>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-primary alert-dismissable fade show" role="alert">
+            {{message}}
+            <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    <br>
+    <div class="container text-center">
+      <div class="bg-dark">
+        <h4 class="text-white">
+          Buy Products
+        </h4>
+      </div>
+      <div class="row">
+        {% if items == [] %}
+          <p>
+            No Products available
+          </p>
+        {% else %}
+          {% for product in items %}
+            <div class="text-center bg-light g-2 col-3 border h-100">
+              <img src="{{product['image_url']}}" class="image-fluid rounded">
+              <br>
+              <h5 class="text-center p-2">
+                {{product["product_name"]}}
+              </h5>
+              <p>
+                {{product["description"]}}
+              </p>
+              <p>
+                Price: ${{product["price"]}}
+              </p>
+              <p>
+                Quantity: {{product["quantity"]}}
+              </p>
+              <form method="post">
+                <input type="number" class="form-control" name="Quantity" placeholder="Quantity">
+                <input type="hidden" name="id" value="{{product['_id']}}">
+                <button type="submit" class="btn btn-success" name="AddToCart">
+                  Add To Cart
+                </button>
+              </form>
+            </div>
+          {%endfor%}
+        {%endif%}
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+  </body>
+</html>
