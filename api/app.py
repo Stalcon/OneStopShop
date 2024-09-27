@@ -3,13 +3,17 @@ from bson import ObjectId
 import pymongo, random
 from pymongo.server_api import ServerApi
 from flask import Flask, redirect, render_template, request, flash, session
-from passlib.hash import sha256_crypt 
+from passlib.hash import sha256_crypt
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "MJBULED ODSRW"
 
 client = pymongo.MongoClient(
-    "mongodb+srv://Stalcon:3rorLQbbs8YMCeQU@cluster0.szmcpfm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+    os.getenv("MONGO_URI"),
     server_api=ServerApi('1')
     )
 
@@ -135,4 +139,5 @@ def cart():
             return redirect("/")
         return redirect("/cart")
 
-app.run(debug=True)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
